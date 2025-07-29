@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Question Answering System</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Question Answering System</h1>
+    <form id="qa-form">
+      <label for="passage">Enter Passage:</label><br>
+      <textarea id="passage" name="passage" rows="6" required></textarea><br><br>
+
+      <label for="question">Enter Question:</label><br>
+      <input type="text" id="question" name="question" required><br><br>
+
+      <button type="submit">Get Answer</button>
+    </form>
+
+    <div class="output-box">
+      <h3>Answer:</h3>
+      <p id="answer">Your answer will appear here...</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("qa-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+
+      const response = await fetch("/get_answer", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+      document.getElementById("answer").innerText = data.answer;
+    });
+  </script>
+</body>
+</html>
